@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2335D0D6-AADC-4FC0-B3DC-C25580ECB92C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleApp11</RootNamespace>
+    <RootNamespace>ArtivoVerMan</RootNamespace>
     <AssemblyName>ArtivaVerMan</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

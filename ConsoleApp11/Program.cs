@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Mark Frazier 1/4/2018
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ using Microsoft.Win32;
 using System.Net;
 using System.Configuration;
 
-namespace ConsoleApp11{
+namespace ArtivoVerMan{
     class Program{
         public static String myIp { get; set; }
         public static String targetIp { get; set; }
