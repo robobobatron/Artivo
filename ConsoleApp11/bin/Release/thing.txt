@@ -1,0 +1,25 @@
+Write folder root: 
+1. Network adapter 'Intel(R) 82579V Gigabit Network Connection' on local host
+Enter the interface number (1-1):
+Known servers and addresses:
+AGENCY-192.168.21.12
+NESDEV-192.168.1.20
+NESTRACK-192.168.1.20
+NESTEST-192.168.1.20
+CARDEV-172.17.10.81
+VERMGR-172.17.10.9
+CARTEST-172.17.10.81
+LEGAL-192.168.21.12
+192.168.21.12 could not be resolved!
+SECCTRLTEST-192.168.8.13
+SECPROD-192.168.8.12
+SECDEV-192.168.8.13
+AGY01PROD-10.1.51.11
+AGY01DEV-10.1.51.14
+AGY01VERSMGR-10.1.51.14
+SECVERMGR-192.168.8.13
+LSSDEV-10.10.10.32
+AGY01TEST-10.1.51.14
+Listening on Network adapter 'Intel(R) 82579V Gigabit Network Connection' on local host...
+--------------------------------------------------
+\\GEOFF-PC\Users\markf\Backup\AGENCY\SYLB\AMTEST\ver2
