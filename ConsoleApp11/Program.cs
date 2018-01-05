@@ -21,8 +21,7 @@ namespace ArtivoVerMan
         public static IDictionary<String, String> servers = new Dictionary<String, String>();
         static void Main(string[] args){
             repoTarget = ConfigurationManager.AppSettings["repoTarget"];
-            if (repoTarget[repoTarget.Length-1] != '\\')
-            {
+            if (repoTarget[repoTarget.Length-1] != '\\'){
                 Console.Out.Write("BAD DIRECTORY SET IN CONFIG!! MUST END IN \\");
                 throw new Exception();
             }
@@ -54,55 +53,41 @@ namespace ArtivoVerMan
             // Open the device
             myIp = selectedDevice.Addresses[1].Address.ToString().Replace("Internet ", "");
             Console.Out.WriteLine("Known servers and addresses:");
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryPath))
-            {
-                if (key != null)
-                {
-                    foreach (string subkey in key.GetValueNames())
-                    {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryPath)){
+                if (key != null){
+                    String ipAddr = "";
+                    foreach (string subkey in key.GetValueNames()){
                         String val = (string)(key.GetValue(subkey));
                         Match match = Regex.Match(val.Split('\x7')[1], @"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b");
-                        if (!match.Success)
-                        {
+                        if (!match.Success){
                             IPHostEntry hostEntry = null;
-                            try
-                            {
+                            try{
                                 hostEntry = Dns.GetHostEntry(val.Split('\x7')[1]);
+                                ipAddr = hostEntry.AddressList[0].ToString();
                             }
-                            catch
-                            {
+                            catch{
                                 Console.Out.WriteLine(val.Split('\x7')[1] + " could not be resolved");
                             }
-                            Console.Out.WriteLine(val.Split('\x7')[5] + "-" + hostEntry.AddressList[0]);
-                            try
-                            {
-                                servers.Add(hostEntry.AddressList[0].ToString(), val.Split('\x7')[5]);
-                            }
-                            catch
-                            {
-                                Console.Out.WriteLine(hostEntry.AddressList[0].ToString() + " is already in the list.");
-                            }
                         }
-                        else
-                        {
-                            Console.Out.WriteLine(val.Split('\x7')[5] + "-" + val.Split('\x7')[1]);
-                            try
-                            {
-                                servers.Add(val.Split('\x7')[1], val.Split('\x7')[5]);
+                        else{
+                            ipAddr = val.Split('\x7')[1];
+                        }
+                        if (!String.IsNullOrEmpty(ipAddr)){
+                            Console.Out.Write(val.Split('\x7')[5] + "-" + ipAddr);
+                            try{
+                                servers.Add(ipAddr, val.Split('\x7')[5]);
+                                Console.Out.WriteLine();
                             }
-                            catch
-                            {
-                                Console.Out.WriteLine(val.Split('\x7')[1] + " is already in the list.");
+                            catch{
+                                Console.Out.WriteLine(" - Duplicate Ip.");
                             }
                         }
                     }
                 }
             }
-            using (PacketCommunicator communicator = selectedDevice.Open(65536, PacketDeviceOpenAttributes.None, 1000))
-            {
+            using (PacketCommunicator communicator = selectedDevice.Open(65536, PacketDeviceOpenAttributes.None, 1000)){
                 // Check the link layer. We support only Ethernet for simplicity.
-                if (communicator.DataLink.Kind != DataLinkKind.Ethernet)
-                {
+                if (communicator.DataLink.Kind != DataLinkKind.Ethernet){
                     Console.WriteLine("This program works only on Ethernet networks.");
                     return;
                 }
@@ -129,20 +114,17 @@ namespace ArtivoVerMan
                     }
 
                 }
-                if (pay != "") {
+                if (pay != ""){
                     Regex rgx = new Regex("(?=\\<\\?xml).*<\\/.*>", RegexOptions.Singleline);
                     if (rgx.Match(pay).Success){
                         pay = rgx.Matches(pay)[0].Value;
-                        try
-                        {
+                        try{
                             XmlDocument xmlDoc = new XmlDocument();
                             xmlDoc.LoadXml(pay);
                             directory = directory + xmlDoc.LastChild.Name;
                             scriptName = xmlDoc.LastChild.Attributes[0].InnerText;
-                                foreach (XmlNode child in xmlDoc.LastChild)
-                                {
-                                    switch (child.Name)
-                                    {
+                                foreach (XmlNode child in xmlDoc.LastChild){
+                                    switch (child.Name){
                                         case "CODE":
                                             pay = child.InnerText;
                                             break;
@@ -157,8 +139,7 @@ namespace ArtivoVerMan
                                     writter.Write(pay);
                             }
                         }
-                        catch
-                        {
+                        catch{
                             Console.Out.WriteLine("A bad thing happend when tring to parse XML. Your client may not have deployed the whole thing. Please save again.");
                         }
                     }
