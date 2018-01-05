@@ -1,12 +1,8 @@
 ﻿//Mark Frazier 1/4/2018
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
-using PcapDotNet.Base;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
@@ -16,7 +12,8 @@ using Microsoft.Win32;
 using System.Net;
 using System.Configuration;
 
-namespace ArtivoVerMan{
+namespace ArtivoVerMan
+{
     class Program{
         public static String myIp { get; set; }
         public static String targetIp { get; set; }
@@ -89,9 +86,13 @@ namespace ArtivoVerMan{
                         else
                         {
                             Console.Out.WriteLine(val.Split('\x7')[5] + "-" + val.Split('\x7')[1]);
-                            if (!servers.ContainsKey(val.Split('\x7')[1]))
+                            try
                             {
                                 servers.Add(val.Split('\x7')[1], val.Split('\x7')[5]);
+                            }
+                            catch
+                            {
+                                Console.Out.WriteLine(val.Split('\x7')[1] + " is already in the list.");
                             }
                         }
                     }
